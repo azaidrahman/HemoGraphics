@@ -1,0 +1,20 @@
+# Example .gitignore contents
+
+# Python cache:
+__pycache__/
+*.pyc
+
+# Data directories:
+data/raw/
+data/processed/
+
+# Environment files:
+.env
+venv/
+
+# OS generated files:
+.DS_Store
+Thumbs.db
+
+# Jupyter notebook checkpoints:
+.ipynb_checkpoints/
