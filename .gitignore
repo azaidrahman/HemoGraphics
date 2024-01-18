@@ -11,6 +11,7 @@ data/processed/
 # Environment files:
 .env
 venv/
+.vscode/
 
 # OS generated files:
 .DS_Store
