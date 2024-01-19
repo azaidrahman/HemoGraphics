@@ -87,3 +87,15 @@ def fetch_granular_data():
     granular_data_url = 'https://dub.sh/ds-data-granular'
     granular_df = pd.read_parquet(granular_data_url)
     return granular_df
+
+def csv_to_df(date_folder_path):
+    dataframes = {}
+    for filename in os.listdir(date_folder_path):
+        if filename.endswith('.csv'):
+            file_path = os.path.join(date_folder_path, filename)
+            dataframe_name = filename.replace('.csv', '')
+            dataframes[dataframe_name] = pd.read_csv(file_path)
+            dataframes[dataframe_name]['date'] = pd.to_datetime(dataframes[dataframe_name]['date'])
+
+    # print(dataframes)
+    return dataframes
