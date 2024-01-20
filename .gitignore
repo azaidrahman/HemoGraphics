@@ -1,12 +1,9 @@
-# Example .gitignore contents
-
 # Python cache:
 __pycache__/
 *.pyc
 
 # Data directories:
-data/raw/
-data/processed/
+data/
 
 # Environment files:
 .env
@@ -22,3 +19,4 @@ Thumbs.db
 
 # NOTES
 self-notes/
+*.csv
