@@ -19,14 +19,14 @@ def fetch_and_save_csv_files():
     today_data_directory = os.path.join(DATA_DIRECTORY, today_str)
 
     # Check if today's data directory already exists
-    if os.path.exists(today_data_directory):
+    if os.path.exists(today_data_directory) and len(os.listdir(today_data_directory)) > 0:
         print(f"Data for today ({today_str}) already exists. Skipping data fetching.")
         return
     
     os.makedirs(today_data_directory, exist_ok=True)
     
     # Send a request to the GitHub API to list the files in the repository
-    response = requests.get(api_url)
+    response = requests.get(API_URL)
     if response.status_code == 200:
         # Parse the JSON response
         repo_contents = response.json()
@@ -36,7 +36,7 @@ def fetch_and_save_csv_files():
             # Check if the file is a CSV
             if file_info['type'] == 'file' and file_info['name'].endswith('.csv'):
                 # Construct the raw URL for the CSV file
-                csv_url = base_raw_url + file_info['name']
+                csv_url = BASE_RAW_URL + file_info['name']
                 
                 # Read the CSV file directly into a DataFrame
                 df = pd.read_csv(csv_url)
