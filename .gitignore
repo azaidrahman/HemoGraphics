@@ -4,6 +4,7 @@ __pycache__/
 
 # Data directories:
 data/
+parquet/
 
 # Environment files:
 .env
@@ -20,3 +21,4 @@ Thumbs.db
 # NOTES
 self-notes/
 *.csv
+*.png
