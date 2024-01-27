@@ -5,6 +5,62 @@ import os
 from datetime import datetime, timedelta
 import shutil
 
+BASE_RAW_URL = 'https://raw.githubusercontent.com/MoH-Malaysia/data-darah-public/main/'
+API_URL = 'https://api.github.com/repos/MoH-Malaysia/data-darah-public/contents/'
+DATA_DIRECTORY = '../data/'
+GRANULAR_DATA_URL = 'https://dub.sh/ds-data-granular'
+today_str = datetime.now().strftime('%Y-%m-%d')
+today_directory = os.path.join(DATA_DIRECTORY, today_str)
+
+def fetch_data(mode='server'):
+
+    response = requests.get(API_URL)
+    dfs = {}
+
+    if response.status_code != 200:
+        print(f"Failed to fetch data: {response.status_code}")
+        return
+
+    if response.status_code == 200:
+        # Parse the JSON response
+        repo_contents = response.json()
+        
+        # Iterate over the files in the repo
+        for file_info in repo_contents:
+            # Check if the file is a CSV
+            if file_info['type'] == 'file' and file_info['name'].endswith('.csv'):
+                # Construct the raw URL for the CSV file
+                csv_url = BASE_RAW_URL + file_info['name']
+                
+                # Read the CSV file directly into a DataFrame
+                df = pd.read_csv(csv_url)
+                
+                match mode:
+                    case 'server':
+                        # Save the df into a dictionary if wish to load directly into memory
+                        dfs[file_info['name']] = df 
+                    case 'local':
+                        # Save the DataFrame to a CSV file in today's data directory
+                        filename = f"{file_info['name'].split('.csv')[0]}.csv"
+                        file_path = os.path.join(today_directory, filename)
+                        # Check if the file already exists
+                        if not os.path.isfile(file_path):
+                            df.to_csv(file_path, index=False)
+                            print(f"Data saved to {file_path}")
+                        else:
+                            print(f"File already exists: {file_path}")
+                
+                 
+    
+    if mode == 'server' and dfs: 
+        return dfs
+    elif mode == 'local':
+        return
+    else:
+        return print(f'Failed to fetch data')
+
+    
+
 def cleanup_old_data_folders():
     
     DATA_DIRECTORY = '../data/'
