@@ -1,3 +1,4 @@
+from threading import local
 import requests
 import pandas as pd
 import os
@@ -168,9 +169,9 @@ def load_csvs_from_data_folder(data_folder, date_str):
 
     # Check if the folder exists
     if not os.path.exists(date_folder_path):
-        fetch_and_save_csv_files()
+        fetch_data(mode='local')
     elif len(os.listdir(date_folder_path)) < 4:
-        fetch_and_save_csv_files()
+        fetch_data(mode='local')
 
     # Dictionary to hold dataframes
     dataframes = {}
