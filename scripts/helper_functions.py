@@ -169,9 +169,9 @@ def load_csvs_from_data_folder(data_folder, date_str):
 
     # Check if the folder exists
     if not os.path.exists(date_folder_path):
-        fetch_data(mode='local')
+        fetch_and_save_csv_files()
     elif len(os.listdir(date_folder_path)) < 4:
-        fetch_data(mode='local')
+        fetch_and_save_csv_files()
 
     # Dictionary to hold dataframes
     dataframes = {}
