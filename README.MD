@@ -18,7 +18,6 @@ Telegram Bot Integration: The final piece of the puzzle was the creation of a Te
 
 The project is organized into several directories:
 
-- `data/`: Contains subdirectories for raw and processed data. (Note: Raw data is not stored in the repository).
 - `notebooks/`: Jupyter notebooks for exploratory data analysis and results presentation.
 - `scripts/`: Python scripts for automating the data ingestion and analysis.
 - `telegram_bot/`: Houses the initialization and scripts for the Telegram bot, enhancing the project's accessibility and interactivity.
