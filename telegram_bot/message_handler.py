@@ -1,6 +1,61 @@
 from aiogram import types
-from bot import dp
+from aiogram.filters import Command
+from io import BytesIO
+from plot_trends import plot_retention, plot_trends
+from aiogram.types import  BufferedInputFile
 
-@dp.message_handler(commands=['start'])
-async def send_welcome(message: types.Message):
-    await message.reply("Hello, World!")
+def register_handlers(dp,bot):
+
+    
+    @dp.message(Command('monthly_donation'))
+    async def monthly_donations(message: types.Message):
+        await message.answer("Request receieved! Hold on one moment while I load it up")
+        
+        buf = plot_trends("donations_state","monthly_donations")
+        if buf and isinstance(buf, BytesIO):
+            print('Buffer is loaded')
+            buf.seek(0)
+            photo = BufferedInputFile(buf.getvalue(), filename="chart.png")  # Convert buffer to InputFile
+            await bot.send_photo(message.chat.id, photo=photo, caption="Latest Blood Donation Trends among states")
+            buf.close()  # Close the buffer after sending the photo
+        else:
+            print("Buffer is empty or not a BytesIO instance")
+
+            
+    @dp.message(Command('seasonal'))
+    async def seasonal_chart(message: types.Message):
+        await message.answer("Request receieved! Hold on one moment while I load it up")
+        buffers = plot_trends("donations_state","seasonal")
+        for state, buf in buffers.items():
+            if buf and isinstance(buf, BytesIO):
+                buf.seek(0)
+                photo = BufferedInputFile(buf.getvalue(), filename="chart.png")  # Convert buffer to InputFile
+                await bot.send_photo(message.chat.id, photo=photo)
+                buf.close()  # Close the buffer after sending the photo
+            else:
+                print("Buffer is empty or not a BytesIO instance")
+
+    @dp.message(Command('retention'))
+    async def retention_chart(message: types.Message):
+        await message.answer("Request receieved for retention! Hold on one moment while I load it up\n\n This one will take awhile!")
+        buf = plot_retention() 
+        if buf and isinstance(buf, BytesIO):
+            print('Buffer is loaded')
+            buf.seek(0)
+            photo = BufferedInputFile(buf.getvalue(), filename="chart.png")  # Convert buffer to InputFile
+            await bot.send_photo(message.chat.id, photo=photo, caption="Latest Blood Donation Trends among states")
+            buf.close()  # Close the buffer after sending the photo
+        else:
+            print("Buffer is empty or not a BytesIO instance")
+    
+    @dp.message(Command('chart'))
+    async def chart_command(message: types.Message):
+        await message.answer("Generating charts... Please wait")
+        
+        await monthly_donations(message)
+        await seasonal_chart(message)
+        await retention_chart(message)
+        
+        await message.answer("All charts have been sent!")
+
+    return monthly_donations,seasonal_chart, retention_chart

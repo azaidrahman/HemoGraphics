@@ -14,6 +14,8 @@ def load_agg_data():
     # Load aggregate data
     dfs = fetch_data(mode="server")
     transform_dates()
+    # print('data loaded!')
+    # print(dfs['donations_state'].iloc[:3,:3])
 
 
 def load_gdf_data():
@@ -39,12 +41,12 @@ def ensure_data_loaded(data_type):
     def decorator(func):
         def wrapper(*args, **kwargs):
             if data_type == "agg":
-                global dfs
                 if dfs is None:
+                    print('loading agg data')
                     load_agg_data()
             elif data_type == "gdf":
-                global gdf
                 if gdf is None:
+                    print('loading granular data')
                     load_gdf_data()
             else:
                 raise ValueError(f"Unknown data type: {data_type}")

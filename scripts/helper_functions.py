@@ -34,14 +34,16 @@ def fetch_data(mode="server"):
 
                 # Read the CSV file directly into a DataFrame
                 df = pd.read_csv(csv_url)
+                filename = f"{file_info['name'].split('.csv')[0]}.csv"
 
                 match mode:
                     case "server":
                         # Save the df into a dictionary if wish to load directly into memory
-                        dfs[file_info["name"]] = df
+                        short_filename = filename.split('.')[0]
+                        dfs[short_filename] = df
+
                     case "local":
                         # Save the DataFrame to a CSV file in today's data directory
-                        filename = f"{file_info['name'].split('.csv')[0]}.csv"
                         file_path = os.path.join(today_directory, filename)
                         # Check if the file already exists
                         if not os.path.isfile(file_path):
