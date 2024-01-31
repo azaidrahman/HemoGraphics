@@ -9,7 +9,7 @@ def register_handlers(dp,bot):
     
     @dp.message(Command('monthly_donation'))
     async def monthly_donations(message: types.Message):
-        await message.answer("Request receieved! Hold on one moment while I load it up")
+        await message.answer("Request received! Hold on one moment while I load it up")
         
         buf = plot_trends("donations_state","monthly_donations")
         if buf and isinstance(buf, BytesIO):
@@ -24,7 +24,7 @@ def register_handlers(dp,bot):
             
     @dp.message(Command('seasonal'))
     async def seasonal_chart(message: types.Message):
-        await message.answer("Request receieved! Hold on one moment while I load it up")
+        await message.answer("Request received! Hold on one moment while I load it up")
         buffers = plot_trends("donations_state","seasonal")
         for state, buf in buffers.items():
             if buf and isinstance(buf, BytesIO):
@@ -37,7 +37,7 @@ def register_handlers(dp,bot):
 
     @dp.message(Command('retention'))
     async def retention_chart(message: types.Message):
-        await message.answer("Request receieved for retention! Hold on one moment while I load it up\n\n This one will take awhile!")
+        await message.answer("Request received for retention! Hold on one moment while I load it up\n\n This one will take awhile! (Roughly 45 seconds)")
         buf = plot_retention() 
         if buf and isinstance(buf, BytesIO):
             print('Buffer is loaded')
@@ -58,4 +58,11 @@ def register_handlers(dp,bot):
         
         await message.answer("All charts have been sent!")
 
-    return monthly_donations,seasonal_chart, retention_chart
+        outro_message = ("Thank you for engaging with the HemoGraphics blood donation data analysis. To delve deeper into the project or to explore more of our work, visit our GitHub repository:\n\n"
+                         
+                         "🌐 HemoGraphics on GitHub: https://github.com/azaidrahman/HemoGraphics\n"
+                         
+                         "📞 Contact: +60132352745"
+                         
+                         )
+        await message.answer(outro_message)

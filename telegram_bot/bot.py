@@ -28,7 +28,7 @@ else:
     sys.exit(1)
 
 dp = Dispatcher()
-monthly_donation, seasonal_chart, retention_chart = register_handlers(dp,bot)
+register_handlers(dp,bot)
 
 
 
@@ -42,9 +42,9 @@ async def command_start_handler(message: types.Message) -> None:
         "Welcome to the Blood Donation Trends Bot (HemoGraphics). This bot provides insights into blood donation trends. All the data is updated daily! \n\n"
         "You can use the following commands to interact with the bot:\n\n"
         
-        f"{hbold('/monthly_donation')}: \nView trends of blood donations in different states. This feature allows you to visualize donation trends on a monthly basis, helping you understand the comparison of numbers from each state.\n"
+        f"{hbold('/monthly_donation')}: \nView trends of blood donations in different states. This feature allows you to visualize donation trends on a monthly basis, helping you understand the comparison of numbers from each state.\n\n"
         
-        f"{hbold('/seasonal')}: \nAnalyze seasonal components of blood donation trends for the top 2 and bottom 2 performing (donations) states. Break down the donation data into seasonal trends, trend cycles, and residuals, providing a deeper understanding of the underlying patterns.\n"
+        f"{hbold('/seasonal')}: \nAnalyze seasonal components of blood donation trends for the top 2 and bottom 2 performing (donations) states. Break down the donation data into seasonal trends, trend cycles, and residuals, providing a deeper understanding of the underlying patterns.\n\n"
         
         f"{hbold('/retention')}: \nExamine donor retention rates and patterns. This command helps you understand how effectively donors are being retained over time, which is crucial for planning and improving donor engagement strategies.\n\n"
         
