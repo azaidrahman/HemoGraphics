@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project serves as my submission for an assessment by the OpenDOSM GovTech Nucleus Unit. This project involves building an automated data pipeline to ingest daily-updated blood donation data from two sources: aggregate (csv files from a GitHub repository) and granular (a Parquet file) and churn it out to a telegram bot. The goal is to perform analysis on the trends of blood donations in Malaysia and to understand the retention rate of blood donors.
+This project involves building an automated data pipeline to ingest daily-updated blood donation data from two sources: aggregate (csv files from a GitHub repository) and granular (a Parquet file) and churn it out to a telegram bot. The goal is to perform analysis on the trends of blood donations in Malaysia and to understand the retention rate of blood donors.
 
 ## Development Process
 
